@@ -10086,37 +10086,28 @@ function renderSubmitPage(){
       };
     }).filter(r => r.lender || r.init || r.bal);
 
-    const base = (settings.default_message || DEFAULT_MESSAGE).trim();
-    const thankIdx = base.lastIndexOf('Thank you');
+    let lines = ['Hey team, please underwrite the attached deal.'];
 
-    let parts = [];
+    // Amount + purpose on one line
+    if (amount && purpose) lines.push(`Requesting ${amount} to ${purpose}.`);
+    else if (amount)        lines.push(`Requesting ${amount} for capital expansion.`);
+    else if (purpose)       lines.push(`Looking to ${purpose}.`);
 
-    // "Merchant is requesting $150K" or "Merchant is requesting $150K to expand the business"
-    if (amount && purpose) parts.push(`Merchant is requesting ${amount} to ${purpose}.`);
-    else if (amount)        parts.push(`Merchant is requesting ${amount}.`);
-    else if (purpose)       parts.push(`Merchant is looking to ${purpose}.`);
-
-    // Positions
+    // Positions — compact single line each
     if (balRows.length) {
-      const n = balRows.length;
-      parts.push(`They currently have ${n} open position${n > 1 ? 's' : ''}:`);
-      balRows.forEach((r, i) => {
-        let desc = `${i + 1}.`;
-        if (r.lender) desc += ` ${r.lender}`;
-        if (r.init && r.bal)  desc += ` — initial loan ${r.init}, current balance ${r.bal}`;
-        else if (r.init)       desc += ` — initial loan ${r.init}`;
-        else if (r.bal)        desc += ` — current balance ${r.bal}`;
-        parts.push(desc);
-      });
+      const posLine = balRows.map((r, i) => {
+        let s = r.lender || `Position ${i+1}`;
+        if (r.init && r.bal)  s += ` (funded ${r.init}, balance ${r.bal})`;
+        else if (r.init)       s += ` (funded ${r.init})`;
+        else if (r.bal)        s += ` (balance ${r.bal})`;
+        return s;
+      }).join(', ');
+      const label = balRows.length === 1 ? 'They have 1 position open' : `They have ${balRows.length} positions open`;
+      lines.push(`${label}: ${posLine}.`);
     }
 
-    if (!parts.length) return base;
-
-    const insert = parts.join('\n') + '\n';
-    if (thankIdx !== -1) {
-      return base.slice(0, thankIdx) + insert + base.slice(thankIdx);
-    }
-    return base + '\n' + insert.trim();
+    lines.push('Thank you.');
+    return lines.join('\n');
   }
 
   function getSubject() {
