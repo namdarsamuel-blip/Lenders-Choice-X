@@ -3585,6 +3585,20 @@ let lenders = [];
 let settings = {};
 let currentPage = 'match';
 let selectedLenders = new Set();
+const SELECTED_LENDERS_KEY = 'lendiago_selected_lenders_v1';
+
+function saveSelectedLenders() {
+  setLS(SELECTED_LENDERS_KEY, JSON.stringify([...selectedLenders]));
+}
+function restoreSelectedLenders() {
+  try {
+    const saved = getLS(SELECTED_LENDERS_KEY);
+    if (saved) {
+      const names = JSON.parse(saved);
+      if (Array.isArray(names)) names.forEach(n => selectedLenders.add(n));
+    }
+  } catch(e) {}
+}
 let editingName = null; // null = adding, set = editing this lender
 
 // Filter state for Match Deal
@@ -9189,6 +9203,7 @@ function toggleExpand(name){
 function toggleSelection(name){
   if (selectedLenders.has(name)) selectedLenders.delete(name);
   else selectedLenders.add(name);
+  saveSelectedLenders();
   // Update strip-row visuals
   document.querySelectorAll(`.strip-row[data-name="${cssEsc(name)}"]`).forEach(row => {
     row.classList.toggle('selected', selectedLenders.has(name));
@@ -9569,6 +9584,7 @@ function renderSendChips() {
       e.stopPropagation();
       const name = btn.dataset.rm;
       selectedLenders.delete(name);
+      saveSelectedLenders();
       renderSubmitPage._extra = (renderSubmitPage._extra||[]).filter(e=>e.name!==name);
       renderSendChips();
       updateSendBtn();
@@ -9802,7 +9818,7 @@ function renderSubmitPage() {
   if (newSubBtn && !newSubBtn._wired) {
     newSubBtn._wired = true;
     newSubBtn.addEventListener('click', () => {
-      selectedLenders.clear();
+      selectedLenders.clear(); saveSelectedLenders();
       attachedFiles = [];
       renderSubmitPage._extra = [];
       const bizInput = document.getElementById('deal-biz-name');
@@ -10395,7 +10411,7 @@ document.getElementById('import-file').addEventListener('change', (e) => {
       if (!confirm(`Import ${data.length} lenders? This replaces your current list.`)) return;
       lenders = data.map(normalizeLender);
       persistCache();
-      selectedLenders.clear();
+      selectedLenders.clear(); saveSelectedLenders();
       renderAll();
       toast(`Imported ${data.length} lenders`);
     } catch (err) {
@@ -10409,7 +10425,7 @@ document.getElementById('import-file').addEventListener('change', (e) => {
 document.getElementById('btn-reset-data').addEventListener('click', () => {
   if (!confirm('Reset all lender data to defaults? This wipes your current list and re-seeds 133 lenders. (Settings stay.)')) return;
   lenders = DEFAULT_LENDERS.map(normalizeLender);
-  selectedLenders.clear();
+  selectedLenders.clear(); saveSelectedLenders();
   persistCache();
   renderAll();
   toast('Data reset to defaults');
@@ -10451,7 +10467,7 @@ function flashCopied(btn, originalLabel) {
 
 // Bottom action bar — Clear + Continue
 document.getElementById('btn-ab-clear').addEventListener('click', () => {
-  selectedLenders.clear();
+  selectedLenders.clear(); saveSelectedLenders();
   // Clear selection visuals on both strip-rows and legacy cards
   document.querySelectorAll('.strip-row.selected').forEach(r => {
     r.classList.remove('selected');
@@ -10587,6 +10603,7 @@ function init(){
   loadGmailToken();
   handleOAuthCallback();
   loadAll();
+  restoreSelectedLenders();
   buildFilterBar();
   renderAll();
   // Once the DOM has laid out, balance the filter chips and watch for changes.
