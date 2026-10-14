@@ -10450,71 +10450,9 @@ document.getElementById('btn-ab-continue').addEventListener('click', () => {
   nav('submit');
 });
 
-// Submission page — Back button
-document.getElementById('btn-submit-back').addEventListener('click', () => {
-  nav('match');
-});
-
-// Done button — just go back to match page, selections preserved
-document.getElementById('btn-done-submit').addEventListener('click', () => {
-  toast('Submission completed');
-  selectedLenders.clear();
-  document.getElementById('submit-message').value = '';
-  setLS('lendiago_last_message_v1', '');
-  nav('match');
-  renderMatches();
-  updateTopbarStats();
-  updateActionBar();
-});
-
-// Clear & back from submit page
-document.getElementById('btn-clear-and-back').addEventListener('click', () => {
-  selectedLenders.clear();
-  document.getElementById('submit-message').value = '';
-  setLS('lendiago_last_message_v1', '');
-  nav('match');
-  renderMatches();
-  updateTopbarStats();
-  updateActionBar();
-});
-
-// Copy emails on submission page
-document.getElementById('btn-copy-emails-page').addEventListener('click', async (e) => {
-  const selected = [...selectedLenders]
-    .map(name => lenders.find(L => L.name === name))
-    .filter(L => L && L.contact_email);
-  if (selected.length === 0) {
-    toast('No lenders with emails to copy', true);
-    return;
-  }
-  const emails = selected.map(L => L.contact_email).join(', ');
-  const ok = await copyToClipboard(emails);
-  if (ok) {
-    flashCopied(e.currentTarget, 'Copy emails');
-    toast(`Copied ${selected.length} email${selected.length===1?'':'s'} — paste into Gmail "To" or "Bcc"`);
-  } else {
-    toast('Copy failed — long-press the emails to select manually', true);
-  }
-});
-
-// Copy message on submission page
-document.getElementById('btn-copy-message-page').addEventListener('click', async (e) => {
-  const msgEl = document.getElementById('submit-message');
-  const msg = msgEl.value.trim();
-  if (!msg) { toast('Message is empty', true); return; }
-  const ok = await copyToClipboard(msg);
-  if (ok) {
-    flashCopied(e.currentTarget, 'Copy message');
-    toast('Message copied — paste into Gmail body');
-  } else {
-    toast('Copy failed', true);
-  }
-});
-
-// Persist message as user types (so it survives reloads but stays editable per deal)
-document.getElementById('submit-message').addEventListener('input', (e) => {
-  setLS('lendiago_last_message_v1', e.target.value);
-});
+// Submission page — Back button (wired inside renderSubmitPage as well)
+const _submitBackBtn = document.getElementById('btn-submit-back');
+if (_submitBackBtn) _submitBackBtn.addEventListener('click', () => nav('match'));
 
 /* ============================================================
    TOPBAR + NAV WIRING
@@ -10626,6 +10564,8 @@ function initStickySearchRow(){
    INIT
    ============================================================ */
 function init(){
+  loadGmailToken();
+  handleOAuthCallback();
   loadAll();
   buildFilterBar();
   renderAll();
@@ -10635,12 +10575,6 @@ function init(){
     observeFilterBarForBalancing();
     initStickySearchRow();
   });
-  // Load last typed message (or default) into the submission page message field
-  const lastMsg = getLS('lendiago_last_message_v1');
-  const msgEl = document.getElementById('submit-message');
-  if (msgEl) {
-    msgEl.value = lastMsg || settings.default_message || DEFAULT_MESSAGE;
-  }
   // Tap the summary bar to expand filters back
   document.getElementById('filter-summary').addEventListener('click', () => {
     setFilterBarCollapsed(false);
