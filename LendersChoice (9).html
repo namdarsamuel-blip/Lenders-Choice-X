@@ -9234,6 +9234,7 @@ const GMAIL_CLIENT_ID = '759992638453-rerr59ccj0nhnouup65b6ej9o3m9knsv.apps.goog
 const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/userinfo.email';
 const GMAIL_TOKEN_KEY = 'lendiago_gmail_token_v1';
 const GMAIL_EMAIL_KEY = 'lendiago_gmail_email_v1';
+const GMAIL_REDIRECT_URI = 'https://namdarsamuel-blip.github.io/Lenders-Choice-X/LendersChoice.html';
 
 let gmailToken = null;
 let gmailEmail = null;
@@ -9288,8 +9289,7 @@ async function silentRefreshToken() {
   return new Promise(resolve => {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
-    const redirect = location.origin + location.pathname;
-    iframe.src = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=none`;
+    iframe.src = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(GMAIL_REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=none`;
     let done = false;
     const finish = () => { if (!done) { done = true; document.body.removeChild(iframe); resolve(false); } };
     iframe.onload = () => {
@@ -9310,8 +9310,7 @@ async function silentRefreshToken() {
 }
 
 function startGmailOAuth() {
-  const redirect = location.origin + location.pathname;
-  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=select_account`;
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(GMAIL_REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=select_account`;
   const w = window.open(url, 'gmailauth', 'width=520,height=640,left=200,top=100');
   if (!w) { alert('Please allow popups for this page to connect Gmail.'); return; }
   const poll = setInterval(() => {
@@ -9502,10 +9501,9 @@ function buildMsg() {
   const rows = document.querySelectorAll('#positions-list .position-row');
   const positions = [];
   rows.forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    const lender = inputs[0]?.value.trim();
-    const funded = inputs[1]?.value.trim();
-    const balance = inputs[2]?.value.trim();
+    const lender = (row.querySelector('.pos-lender')?.value || row.querySelectorAll('input')[0]?.value || '').trim();
+    const funded = (row.querySelector('.pos-money:nth-of-type(1)')?.value || row.querySelectorAll('input')[1]?.value || '').trim();
+    const balance = (row.querySelector('.pos-money:nth-of-type(2)')?.value || row.querySelectorAll('input')[2]?.value || '').trim();
     if (lender) positions.push({lender, funded, balance});
   });
 
@@ -9705,11 +9703,19 @@ function renderSubmitPage() {
     addPosBtn.addEventListener('click', () => {
       const row = document.createElement('div');
       row.className = 'position-row';
-      row.innerHTML = `<input class="deal-input" placeholder="Lender name" type="text">
-        <input class="deal-input" placeholder="Initial loan" type="text">
-        <input class="deal-input" placeholder="Balance" type="text">
+      row.innerHTML = `<input class="deal-input pos-lender" placeholder="Lender name" type="text">
+        <input class="deal-input pos-money" placeholder="$ Funded" type="text" inputmode="numeric">
+        <input class="deal-input pos-money" placeholder="$ Balance" type="text" inputmode="numeric">
         <button class="btn-rm-pos" title="Remove">×</button>`;
-      row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updateMsgPreview));
+      // Dollar + comma formatting on money inputs
+      row.querySelectorAll('.pos-money').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const raw = inp.value.replace(/[^0-9]/g, '');
+          inp.value = raw ? '$' + Number(raw).toLocaleString() : '';
+          updateMsgPreview();
+        });
+      });
+      row.querySelector('.pos-lender').addEventListener('input', updateMsgPreview);
       row.querySelector('.btn-rm-pos').addEventListener('click', () => { row.remove(); updateMsgPreview(); });
       document.getElementById('positions-list').appendChild(row);
       row.querySelector('input').focus();
