@@ -3579,6 +3579,32 @@ const US_STATES = [
 const INDUSTRY_OPTIONS = ['Construction','Restaurant','Retail','Healthcare','Trucking','Auto','Cannabis','Adult','Firearms','Legal','Real Estate','Manufacturing','Wholesale','Technology','Hospitality','Entertainment','Accounting','Consulting','Other'];
 
 /* ============================================================
+   OAUTH EARLY EXIT — must run before anything else
+   If this page was opened as an OAuth callback tab, save the token
+   to localStorage so the original tab picks it up, then close this tab.
+   ============================================================ */
+(function(){
+  if (!location.hash.includes('access_token')) return;
+  try {
+    const p = new URLSearchParams(location.hash.slice(1));
+    const token = p.get('access_token');
+    const expiresIn = p.get('expires_in') || '3600';
+    if (token) {
+      localStorage.setItem('lendiago_oauth_result', JSON.stringify({
+        token, expiresIn: parseInt(expiresIn), ts: Date.now()
+      }));
+    }
+  } catch(e) {}
+  // Show a quick message then close
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.cssText = 'margin:0;background:#0A0A0B;color:#F4F4F5;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;';
+    document.body.innerHTML = '<p style="opacity:.7;font-size:15px">Connected! Closing…</p>';
+  });
+  setTimeout(function(){ try{ window.close(); }catch(e){} }, 1000);
+  throw new Error('oauth-callback-tab'); // stop rest of script from running
+})();
+
+/* ============================================================
    STATE
    ============================================================ */
 let lenders = [];
@@ -9249,7 +9275,7 @@ const GMAIL_CLIENT_ID = '759992638453-rerr59ccj0nhnouup65b6ej9o3m9knsv.apps.goog
 const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/userinfo.email';
 const GMAIL_TOKEN_KEY = 'lendiago_gmail_token_v1';
 const GMAIL_EMAIL_KEY = 'lendiago_gmail_email_v1';
-// Use current page URL as redirect URI — must match what's registered in Google Cloud Console
+// Same page as redirect URI — detects OAuth callback at top of page and closes if child tab
 const GMAIL_REDIRECT_URI = location.origin + location.pathname;
 
 let gmailToken = null;
@@ -9327,28 +9353,24 @@ async function silentRefreshToken() {
 
 function startGmailOAuth() {
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(GMAIL_REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=select_account`;
-  const w = window.open(url, 'gmailauth', 'width=520,height=640,left=200,top=100');
 
-  // If browser blocked popup or opened as tab, poll via localStorage instead
-  if (!w || w === window) {
-    // Set a flag so when the redirect lands on this page it saves the token
-    sessionStorage.setItem('lendiago_oauth_pending', '1');
-    if (!w) window.open(url, '_blank');
-    return;
-  }
+  // Clear any stale result
+  try { localStorage.removeItem('lendiago_oauth_result'); } catch(e) {}
 
+  // Open popup; Chrome may block it and open a tab instead — both work
+  window.open(url, 'gmailauth', 'width=520,height=640,left=200,top=100');
+
+  // Poll localStorage — oauth callback tab writes token there and closes itself
+  let polls = 0;
   const poll = setInterval(() => {
+    if (++polls > 300) { clearInterval(poll); return; } // 2-min timeout
     try {
-      if (w.closed) { clearInterval(poll); return; }
-      const h = w.location.hash;
-      if (h && h.includes('access_token')) {
-        clearInterval(poll);
-        const p = new URLSearchParams(h.slice(1));
-        const token = p.get('access_token');
-        const expiresIn = parseInt(p.get('expires_in') || '3600');
-        w.close();
-        if (token) fetchGmailUserEmail(token, expiresIn);
-      }
+      const raw = localStorage.getItem('lendiago_oauth_result');
+      if (!raw) return;
+      localStorage.removeItem('lendiago_oauth_result');
+      clearInterval(poll);
+      const { token, expiresIn } = JSON.parse(raw);
+      if (token) fetchGmailUserEmail(token, expiresIn);
     } catch(e) {}
   }, 400);
 }
@@ -9366,17 +9388,8 @@ async function fetchGmailUserEmail(token, expiresIn) {
 }
 
 function handleOAuthCallback() {
-  if (!location.hash.includes('access_token')) return;
-  const p = new URLSearchParams(location.hash.slice(1));
-  const token = p.get('access_token');
-  const expiresIn = parseInt(p.get('expires_in') || '3600');
-  history.replaceState(null, '', location.pathname);
-  if (token) {
-    fetchGmailUserEmail(token, expiresIn);
-    // If this was a tab-based flow, close this tab and return to the app
-    // (only if the app was already open in another tab)
-    sessionStorage.removeItem('lendiago_oauth_pending');
-  }
+  // OAuth now redirects to oauth.html which writes to localStorage.
+  // This function kept as no-op for safety.
 }
 
 function updateGmailAuthUI() {
