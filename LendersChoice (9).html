@@ -9234,7 +9234,8 @@ const GMAIL_CLIENT_ID = '759992638453-rerr59ccj0nhnouup65b6ej9o3m9knsv.apps.goog
 const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/userinfo.email';
 const GMAIL_TOKEN_KEY = 'lendiago_gmail_token_v1';
 const GMAIL_EMAIL_KEY = 'lendiago_gmail_email_v1';
-const GMAIL_REDIRECT_URI = 'https://namdarsamuel-blip.github.io/Lenders-Choice-X/LendersChoice.html';
+// Use current page URL as redirect URI — must match what's registered in Google Cloud Console
+const GMAIL_REDIRECT_URI = location.origin + location.pathname;
 
 let gmailToken = null;
 let gmailEmail = null;
