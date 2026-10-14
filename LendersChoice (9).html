@@ -2452,151 +2452,271 @@ button.strip-section-head:hover {
 .submit-page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 8px 16px 80px;
+  padding: 8px 16px 100px;
 }
-.submit-back-row {
-  padding-top: 8px;
-  margin-bottom: 6px;
-}
+.submit-back-row { padding-top: 8px; margin-bottom: 6px; }
 .submit-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-3);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 10px 8px 6px;
-  border-radius: 8px;
-  transition: all 0.12s;
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-3); font-size: 13px; font-weight: 500;
+  padding: 8px 10px 8px 6px; border-radius: 8px; transition: all 0.12s;
 }
 .submit-back:hover { color: var(--text); background: var(--bg-2); }
 .submit-back svg { width: 14px; height: 14px; }
-.submit-head {
-  padding: 4px 0 18px;
-}
+.submit-head { padding: 4px 0 18px; }
 .submit-head .page-title { font-size: 24px; }
-.submit-head .page-sub { font-size: 14px; margin-top: 4px; }
+.submit-head .page-sub { font-size: 14px; margin-top: 4px; color: var(--text-3); }
 
-.submit-card {
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px 18px 18px;
-  margin-bottom: 14px;
+/* Steps */
+.step-card {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px 20px; margin-bottom: 14px;
 }
-.submit-field-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.step-label {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.step-label span { color: var(--text-3); font-weight: 600; margin-left: 4px; }
+
+/* Step 1 – Deal Info */
+.deal-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border-2);
+  border-radius: 10px; padding: 11px 14px; font-family: inherit;
+  font-size: 14.5px; color: var(--text); transition: border-color 0.12s; margin-bottom: 10px;
+}
+.deal-input:focus { border-color: var(--accent); background: var(--bg-2); outline: none; }
+.deal-input:last-child { margin-bottom: 0; }
+.deal-subject-row { position: relative; }
+.deal-subject-preview {
+  background: var(--bg); border: 1px solid var(--border-2); border-radius: 10px;
+  padding: 10px 14px; font-size: 13.5px; color: var(--text-3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Step 2 – Deal Details */
+.deal-details-row { display: flex; gap: 12px; margin-bottom: 12px; }
+.deal-details-row .deal-input { margin-bottom: 0; }
+.deal-details-row .deal-input:first-child { flex: 1; }
+.deal-details-row .deal-input:last-child { flex: 1.5; }
+.positions-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text-3);
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.positions-label span { font-weight: 600; letter-spacing: 0; text-transform: none; font-size: 11px; }
+.btn-add-pos {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: var(--accent); font-size: 12px; font-weight: 600;
+  padding: 4px 8px; border-radius: 6px; transition: background 0.12s;
+}
+.btn-add-pos:hover { background: rgba(250,213,68,0.08); }
+.position-row {
+  display: grid; grid-template-columns: 1fr 120px 120px 28px;
+  gap: 8px; align-items: center; margin-bottom: 8px;
+}
+.position-row .deal-input { margin-bottom: 0; font-size: 13.5px; padding: 9px 12px; }
+.btn-rm-pos {
+  width: 28px; height: 28px; border-radius: 6px; color: var(--text-4);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  transition: background 0.12s, color 0.12s; line-height: 1;
+}
+.btn-rm-pos:hover { background: rgba(255,107,107,0.1); color: var(--coral); }
+#positions-list { margin-bottom: 4px; }
+.msg-preview {
+  background: var(--bg); border: 1px solid var(--border-2); border-radius: 10px;
+  padding: 13px 14px; font-size: 14px; color: var(--text-2);
+  line-height: 1.6; min-height: 70px; white-space: pre-wrap; margin-top: 12px;
+}
+
+/* Step 3 – Attachments */
+.drop-zone {
+  border: 2px dashed var(--border-2); border-radius: 12px;
+  padding: 28px 20px; text-align: center; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s; position: relative;
+}
+.drop-zone.drag-over { border-color: var(--accent); background: rgba(250,213,68,0.04); }
+.drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.drop-zone-icon { font-size: 28px; margin-bottom: 8px; }
+.drop-zone-text { font-size: 14px; color: var(--text-3); }
+.drop-zone-text a { color: var(--accent); text-decoration: underline; cursor: pointer; }
+.drop-zone-hint { font-size: 12px; color: var(--text-4); margin-top: 4px; }
+.att-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.att-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-2); border: 1px solid var(--border-2);
+  border-radius: 10px; padding: 9px 12px;
+}
+.att-icon { font-size: 18px; flex-shrink: 0; }
+.att-name {
+  flex: 1; font-size: 13px; color: var(--text-2); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+}
+.att-name:hover { color: var(--accent); text-decoration: underline; }
+.att-size { font-size: 12px; color: var(--text-4); flex-shrink: 0; }
+.att-rm {
+  color: var(--text-4); font-size: 18px; line-height: 1; padding: 2px 4px;
+  border-radius: 4px; transition: color 0.12s; flex-shrink: 0;
+}
+.att-rm:hover { color: var(--coral); }
+
+/* Step 4 – Send */
+.gmail-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-radius: 10px; margin-bottom: 14px;
+  background: var(--bg-2); border: 1px solid var(--border-2);
+}
+.gmail-banner.connected { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.25); }
+.gmail-banner-left { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.gmail-banner-left svg { width: 18px; height: 18px; flex-shrink: 0; }
+.gmail-banner-info { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.btn-gmail-connect {
+  background: #4285F4; color: #fff; font-weight: 700; font-size: 13px;
+  padding: 9px 18px; border-radius: 8px; transition: opacity 0.12s;
+}
+.btn-gmail-connect:hover { opacity: 0.88; }
+.btn-gmail-disconnect {
+  font-size: 12px; color: var(--text-3); padding: 6px 10px; border-radius: 6px;
+  transition: background 0.12s;
+}
+.btn-gmail-disconnect:hover { background: var(--bg-2); color: var(--coral); }
+
+/* Send chips */
+.send-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+.send-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-2); border: 1px solid var(--border-2);
+  color: var(--text-2); font-size: 13px; padding: 6px 10px 6px 12px;
+  border-radius: 999px; transition: border-color 0.12s;
+}
+.send-chip.active { background: rgba(250,213,68,0.12); border-color: var(--accent); color: var(--accent); }
+.send-chip-x {
+  width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 13px; color: var(--text-4); transition: background 0.12s;
+  line-height: 1;
+}
+.send-chip-x:hover { background: rgba(255,107,107,0.15); color: var(--coral); }
+
+/* Add lender search */
+.lastmin-wrap { position: relative; margin-bottom: 14px; }
+#lastmin-search {
+  width: 100%; background: var(--bg); border: 1px solid var(--border-2);
+  border-radius: 10px; padding: 10px 14px; font-family: inherit; font-size: 14px;
+  color: var(--text); transition: border-color 0.12s;
+}
+#lastmin-search:focus { border-color: var(--accent); outline: none; }
+#lastmin-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 12px; max-height: 260px; overflow-y: auto;
+  z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.35); display: none;
+}
+#lastmin-dropdown.open { display: block; }
+.lm-row {
+  display: flex; align-items: center; padding: 10px 14px;
+  border-bottom: 1px solid var(--border-2); cursor: pointer; gap: 8px;
+}
+.lm-row:last-child { border-bottom: none; }
+.lm-row:hover { background: var(--bg-2); }
+.lm-name { flex: 1; font-size: 13.5px; font-weight: 600; }
+.lm-email { font-size: 12px; color: var(--text-3); }
+.lm-add { color: var(--accent); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.lm-section-head {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-4); padding: 8px 14px 4px;
+}
+
+/* Send button */
+.btn-send-all {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #3B82F6; color: #fff; font-weight: 700; font-size: 15px;
+  padding: 16px 24px; border-radius: 12px; transition: opacity 0.15s, transform 0.1s;
   margin-bottom: 10px;
 }
-.submit-field-head label {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-.sub-copy-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--accent);
-  color: #0A0A0B;
-  font-weight: 700;
-  font-size: 12.5px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: opacity 0.12s, transform 0.1s, background 0.12s;
-  letter-spacing: 0.01em;
-  min-height: 36px;
-}
-.sub-copy-btn:hover { background: #FFE89B; }
-.sub-copy-btn:active { transform: scale(0.97); }
-.sub-copy-btn svg { width: 12px; height: 12px; }
-.sub-copy-btn.copied {
-  background: var(--green);
-  color: #0A0A0B;
-}
-.sub-copy-btn.copied svg { display: none; }
+.btn-send-all:hover:not(:disabled) { opacity: 0.88; }
+.btn-send-all:active:not(:disabled) { transform: scale(0.99); }
+.btn-send-all:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-send-all svg { width: 18px; height: 18px; }
+.send-hint { text-align: center; font-size: 12px; color: var(--text-4); margin-bottom: 14px; }
 
-.submit-emails {
-  background: var(--bg);
-  border: 1px solid var(--border-2);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.7;
-  min-height: 50px;
-  word-break: break-all;
-  user-select: all;
-  -webkit-user-select: all;
+/* Progress rows */
+.send-progress { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.prog-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; background: var(--bg-2);
+  font-size: 13.5px;
 }
-.submit-emails .placeholder {
-  color: var(--text-4);
-  font-family: 'Inter', sans-serif;
-  font-style: italic;
-  font-size: 13px;
-}
-.submit-emails .missing {
-  color: var(--coral);
-  font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  display: block;
-  margin-top: 8px;
-  font-style: italic;
-  line-height: 1.4;
-}
+.prog-row .pr-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.prog-row .pr-name { flex: 1; }
+.prog-row .pr-status { font-size: 12px; color: var(--text-3); }
+.prog-row.pr-sent { background: rgba(34,197,94,0.08); }
+.prog-row.pr-sent .pr-status { color: #22C55E; font-weight: 600; }
+.prog-row.pr-error { background: rgba(255,107,107,0.08); }
+.prog-row.pr-error .pr-status { color: var(--coral); }
 
-.submit-lenders {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* Success card */
+.send-success {
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 14px; padding: 24px 20px; text-align: center; margin-bottom: 14px;
 }
-.submit-lender-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg-2);
-  border: 1px solid var(--border-2);
-  color: var(--text-2);
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 999px;
+.send-success-icon { font-size: 36px; margin-bottom: 10px; }
+.send-success h3 { font-size: 18px; color: #22C55E; margin-bottom: 6px; }
+.send-success p { font-size: 14px; color: var(--text-3); }
+.btn-new-submission {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 16px;
+  background: var(--bg-2); border: 1px solid var(--border); color: var(--text-2);
+  font-size: 13.5px; font-weight: 600; padding: 10px 18px; border-radius: 9px;
+  transition: background 0.12s;
 }
-.submit-lender-chip.no-email {
-  background: rgba(255, 107, 107, 0.08);
-  border-color: rgba(255, 107, 107, 0.3);
-  color: var(--coral);
-}
+.btn-new-submission:hover { background: var(--bg-1); }
 
-.submit-message {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border-2);
-  border-radius: 10px;
-  padding: 13px 14px;
-  font-family: inherit;
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: var(--text);
-  resize: vertical;
-  min-height: 140px;
-  transition: border-color 0.12s;
+/* File preview modal */
+.file-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
-.submit-message:focus { border-color: var(--accent); background: var(--bg-2); }
+.file-modal {
+  background: var(--bg-1); border-radius: 16px; width: 90vw; max-width: 820px;
+  height: 85vh; display: flex; flex-direction: column; overflow: hidden;
+}
+.file-modal-head {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.file-modal-title { flex: 1; font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-modal-nav { display: flex; gap: 6px; }
+.file-modal-nav button {
+  width: 32px; height: 32px; border-radius: 8px; background: var(--bg-2);
+  color: var(--text-2); display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s;
+}
+.file-modal-nav button:hover { background: var(--bg); }
+.file-modal-nav button svg { width: 14px; height: 14px; }
+.file-modal-close {
+  width: 32px; height: 32px; border-radius: 8px; background: var(--bg-2);
+  color: var(--text-2); display: flex; align-items: center; justify-content: center;
+  font-size: 18px; transition: background 0.12s;
+}
+.file-modal-close:hover { background: rgba(255,107,107,0.15); color: var(--coral); }
+.file-modal-body { flex: 1; overflow: hidden; }
+.file-modal-body iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
-.submit-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 22px;
-  justify-content: flex-end;
+/* Submit bottom bar */
+.submit-bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-1); border-top: 1px solid var(--border);
+  padding: 12px 16px; display: flex; gap: 10px; justify-content: flex-end;
+  z-index: 100;
 }
-.submit-actions .btn-ghost { color: var(--coral); }
-.submit-actions .btn-ghost:hover { background: rgba(255,107,107,0.08); }
+.submit-bottom-bar .btn-ghost { color: var(--text-3); }
+
+/* deal datalist */
+datalist { display: none; }
+
+@media (max-width: 600px) {
+  .submit-page { padding: 4px 12px 90px; }
+  .deal-details-row { flex-direction: column; gap: 8px; }
+  .position-row { grid-template-columns: 1fr 90px 90px 28px; }
+}
 
 /* ========== LENDERS PAGE ========== */
 .page-head {
@@ -3279,44 +3399,131 @@ button.strip-section-head:hover {
   <div class="submit-page">
     <div class="submit-back-row">
       <button class="submit-back" id="btn-submit-back">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 4l-4 4 4 4"/>
-        </svg>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l-4 4 4 4"/></svg>
         Back to selections
       </button>
     </div>
-
     <div class="submit-head">
       <h1 class="page-title">Send submission</h1>
-      <p class="page-sub"><span id="submit-count">0</span> lenders selected — copy the recipients and message below into a new email.</p>
+      <p class="page-sub" id="submit-count-sub">Fill in the deal info below, then send to your selected lenders.</p>
     </div>
 
-    <div class="submit-card">
-      <div class="submit-field-head">
-        <label>Recipients</label>
-        <button class="sub-copy-btn" id="btn-copy-emails-page">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="9" height="9" rx="1.5"/><path d="M11 4V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h1"/></svg>
-          Copy emails
+    <!-- STEP 1: Deal Info -->
+    <div class="step-card">
+      <div class="step-label">1 — DEAL INFO</div>
+      <input class="deal-input" id="deal-biz-name" type="text" placeholder="Business name — e.g. Sam's Taco Stand LLC"
+        spellcheck="true" autocorrect="on" autocapitalize="words">
+      <div class="deal-subject-preview" id="deal-subject-preview">Subject — auto-fills from name above</div>
+    </div>
+
+    <!-- STEP 2: Deal Details -->
+    <div class="step-card">
+      <div class="step-label">2 — DEAL DETAILS <span>(builds your message automatically)</span></div>
+      <div class="deal-details-row">
+        <input class="deal-input" id="deal-amount" type="text" placeholder="e.g. $150K">
+        <input class="deal-input" id="deal-purpose" type="text" placeholder="e.g. expand the business" list="purpose-list">
+        <datalist id="purpose-list">
+          <option value="working capital">
+          <option value="equipment purchase">
+          <option value="HVAC equipment">
+          <option value="business expansion">
+          <option value="inventory">
+          <option value="payroll">
+          <option value="marketing">
+          <option value="renovations">
+          <option value="debt consolidation">
+          <option value="real estate">
+        </datalist>
+      </div>
+      <div class="positions-label">
+        CURRENT POSITIONS <span>(lender · funded · balance remaining)</span>
+        <button class="btn-add-pos" id="btn-add-pos">+ Add position</button>
+      </div>
+      <div id="positions-list"></div>
+      <div class="msg-preview" id="msg-preview">Hey team, please underwrite the attached deal. Thank you.</div>
+    </div>
+
+    <!-- STEP 3: Attachments -->
+    <div class="step-card">
+      <div class="step-label">3 — ATTACHMENTS <span>upload once, goes to every lender</span></div>
+      <div class="drop-zone" id="drop-zone">
+        <input type="file" id="file-input" multiple accept="*/*">
+        <div class="drop-zone-icon">📎</div>
+        <div class="drop-zone-text">Drop files here or <a>click to browse</a></div>
+        <div class="drop-zone-hint">Bank statements, application, ID, voided check</div>
+      </div>
+      <div class="att-list" id="att-list"></div>
+    </div>
+
+    <!-- STEP 4: Send -->
+    <div class="step-card">
+      <div class="step-label">4 — SEND</div>
+
+      <!-- Gmail auth banner -->
+      <div class="gmail-banner" id="gmail-banner">
+        <div class="gmail-banner-left">
+          <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="none"/><path d="M2 6l10 7L22 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
+          <div>
+            <div id="gmail-banner-title">Connect Gmail to auto-send with attachments</div>
+            <div class="gmail-banner-info" id="gmail-banner-info">Sign in once — emails send automatically, attachments included</div>
+          </div>
+        </div>
+        <button class="btn-gmail-connect" id="btn-gmail-connect">Connect Gmail</button>
+      </div>
+
+      <!-- Lender chips -->
+      <div class="send-chips" id="send-chips"></div>
+
+      <!-- Add another lender -->
+      <div class="lastmin-wrap">
+        <input type="text" id="lastmin-search" placeholder="+ Add another lender..." autocomplete="off">
+        <div id="lastmin-dropdown"></div>
+      </div>
+
+      <!-- Progress rows -->
+      <div class="send-progress" id="send-progress" style="display:none"></div>
+
+      <!-- Success card -->
+      <div class="send-success" id="send-success" style="display:none">
+        <div class="send-success-icon">✅</div>
+        <h3 id="send-success-title">All emails sent!</h3>
+        <p id="send-success-sub"></p>
+        <button class="btn-new-submission" id="btn-new-submission">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l-4 4 4 4"/></svg>
+          Start a new submission
         </button>
       </div>
-      <div class="submit-emails" id="submit-emails-display"></div>
-      <div class="submit-lenders" id="submit-lenders-list"></div>
-    </div>
 
-    <div class="submit-card">
-      <div class="submit-field-head">
-        <label>Message</label>
-        <button class="sub-copy-btn" id="btn-copy-message-page">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="9" height="9" rx="1.5"/><path d="M11 4V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h1"/></svg>
-          Copy message
-        </button>
+      <!-- Send button -->
+      <button class="btn-send-all" id="btn-send-all" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        <span id="btn-send-label">Send to 0 Lenders</span>
+      </button>
+      <div class="send-hint">Emails send automatically with all attachments — no compose windows.</div>
+
+      <!-- Individual details toggle -->
+      <div id="send-details-wrap" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- Fixed bottom bar -->
+  <div class="submit-bottom-bar">
+    <button class="btn-ghost" id="btn-clear-and-back">← Back to selections</button>
+    <button class="btn-ghost" id="btn-done-submit">Cancel</button>
+  </div>
+
+  <!-- File preview modal -->
+  <div class="file-modal-overlay" id="file-modal" style="display:none" role="dialog">
+    <div class="file-modal">
+      <div class="file-modal-head">
+        <div class="file-modal-title" id="file-modal-title"></div>
+        <div class="file-modal-nav">
+          <button id="file-modal-prev" title="Previous (←)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l-4 4 4 4"/></svg></button>
+          <button id="file-modal-next" title="Next (→)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg></button>
+        </div>
+        <button class="file-modal-close" id="file-modal-close">×</button>
       </div>
-      <textarea class="submit-message" id="submit-message" rows="8" placeholder="Hi, this is Samuel Namdar with Lendiago Capital Solutions..."></textarea>
-    </div>
-
-    <div class="submit-actions">
-      <button class="btn-ghost" id="btn-clear-and-back">Clear selection</button>
-      <button class="btn-primary" id="btn-done-submit">Done</button>
+      <div class="file-modal-body"><iframe id="file-modal-iframe" title="File preview"></iframe></div>
     </div>
   </div>
 </main>
@@ -9020,47 +9227,588 @@ function updateActionBar(){
 
 // Build the submission page from current selection.
 // Called when you navigate to it via the Continue button.
-function renderSubmitPage(){
-  const countEl = document.getElementById('submit-count');
-  if (countEl) countEl.textContent = selectedLenders.size;
+/* ============================================================
+   GMAIL OAUTH + AUTO-SEND
+   ============================================================ */
+const GMAIL_CLIENT_ID = '759992638453-rerr59ccj0nhnouup65b6ej9o3m9knsv.apps.googleusercontent.com';
+const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/userinfo.email';
+const GMAIL_TOKEN_KEY = 'lendiago_gmail_token_v1';
+const GMAIL_EMAIL_KEY = 'lendiago_gmail_email_v1';
 
-  const selected = [...selectedLenders]
-    .map(name => lenders.find(L => L.name === name))
-    .filter(Boolean);
-  const withEmail = selected.filter(L => L.contact_email);
-  const withoutEmail = selected.filter(L => !L.contact_email);
+let gmailToken = null;
+let gmailEmail = null;
+let gmailTokenExpiry = 0;
+let gmailRefreshTimer = null;
 
-  // Emails display
-  const emailsEl = document.getElementById('submit-emails-display');
-  if (emailsEl) {
-    if (selected.length === 0) {
-      emailsEl.innerHTML = '<span class="placeholder">No lenders selected.</span>';
-    } else if (withEmail.length === 0) {
-      emailsEl.innerHTML = '<span class="placeholder">None of the selected lenders have a contact email set.</span>';
-    } else {
-      let html = withEmail.map(L => L.contact_email).join(', ');
-      if (withoutEmail.length) {
-        html += `<span class="missing">⚠ Missing email for: ${withoutEmail.map(L => esc(L.name)).join(', ')} — go back, tap the edit icon on the card to add their email.</span>`;
+function loadGmailToken() {
+  try {
+    const t = localStorage.getItem(GMAIL_TOKEN_KEY);
+    const e = localStorage.getItem(GMAIL_EMAIL_KEY);
+    if (t) {
+      const obj = JSON.parse(t);
+      if (obj && obj.token && obj.expiry && Date.now() < obj.expiry) {
+        gmailToken = obj.token;
+        gmailTokenExpiry = obj.expiry;
+        gmailEmail = e || '';
+        scheduleTokenRefresh();
+      } else {
+        localStorage.removeItem(GMAIL_TOKEN_KEY);
       }
-      emailsEl.innerHTML = html;
+    }
+  } catch(e) {}
+  updateGmailAuthUI();
+}
+
+function saveGmailToken(token, expiresIn, email) {
+  gmailToken = token;
+  gmailTokenExpiry = Date.now() + (expiresIn - 300) * 1000;
+  gmailEmail = email || '';
+  try {
+    localStorage.setItem(GMAIL_TOKEN_KEY, JSON.stringify({token, expiry: gmailTokenExpiry}));
+    if (email) localStorage.setItem(GMAIL_EMAIL_KEY, email);
+  } catch(e) {}
+  scheduleTokenRefresh();
+  updateGmailAuthUI();
+}
+
+function clearGmailToken() {
+  gmailToken = null; gmailEmail = null; gmailTokenExpiry = 0;
+  if (gmailRefreshTimer) clearTimeout(gmailRefreshTimer);
+  try { localStorage.removeItem(GMAIL_TOKEN_KEY); localStorage.removeItem(GMAIL_EMAIL_KEY); } catch(e) {}
+  updateGmailAuthUI();
+}
+
+function scheduleTokenRefresh() {
+  if (gmailRefreshTimer) clearTimeout(gmailRefreshTimer);
+  const ms = gmailTokenExpiry - Date.now() - 5*60*1000;
+  if (ms > 0) gmailRefreshTimer = setTimeout(() => silentRefreshToken(), ms);
+}
+
+async function silentRefreshToken() {
+  return new Promise(resolve => {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    const redirect = location.origin + location.pathname;
+    iframe.src = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=none`;
+    let done = false;
+    const finish = () => { if (!done) { done = true; document.body.removeChild(iframe); resolve(false); } };
+    iframe.onload = () => {
+      try {
+        const h = iframe.contentWindow.location.hash;
+        if (h && h.includes('access_token')) {
+          const p = new URLSearchParams(h.slice(1));
+          const token = p.get('access_token');
+          const expiresIn = parseInt(p.get('expires_in') || '3600');
+          if (token) { saveGmailToken(token, expiresIn, gmailEmail); done = true; document.body.removeChild(iframe); resolve(true); return; }
+        }
+      } catch(e) {}
+      finish();
+    };
+    setTimeout(finish, 8000);
+    document.body.appendChild(iframe);
+  });
+}
+
+function startGmailOAuth() {
+  const redirect = location.origin + location.pathname;
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=select_account`;
+  const w = window.open(url, 'gmailauth', 'width=520,height=640,left=200,top=100');
+  if (!w) { alert('Please allow popups for this page to connect Gmail.'); return; }
+  const poll = setInterval(() => {
+    try {
+      if (w.closed) { clearInterval(poll); return; }
+      const h = w.location.hash;
+      if (h && h.includes('access_token')) {
+        clearInterval(poll);
+        const p = new URLSearchParams(h.slice(1));
+        const token = p.get('access_token');
+        const expiresIn = parseInt(p.get('expires_in') || '3600');
+        w.close();
+        if (token) fetchGmailUserEmail(token, expiresIn);
+      }
+    } catch(e) {}
+  }, 400);
+}
+
+async function fetchGmailUserEmail(token, expiresIn) {
+  try {
+    const r = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {headers:{Authorization:'Bearer '+token}});
+    const d = await r.json();
+    saveGmailToken(token, expiresIn, d.email || '');
+  } catch(e) {
+    saveGmailToken(token, expiresIn, '');
+  }
+  updateGmailAuthUI();
+  updateSendBtn();
+}
+
+function handleOAuthCallback() {
+  if (!location.hash.includes('access_token')) return;
+  const p = new URLSearchParams(location.hash.slice(1));
+  const token = p.get('access_token');
+  const expiresIn = parseInt(p.get('expires_in') || '3600');
+  history.replaceState(null, '', location.pathname);
+  if (token) fetchGmailUserEmail(token, expiresIn);
+}
+
+function updateGmailAuthUI() {
+  const banner = document.getElementById('gmail-banner');
+  const title = document.getElementById('gmail-banner-title');
+  const info = document.getElementById('gmail-banner-info');
+  const btn = document.getElementById('btn-gmail-connect');
+  if (!banner) return;
+  if (gmailToken) {
+    banner.className = 'gmail-banner connected';
+    title.innerHTML = `<span style="color:#22C55E;font-weight:700">✓ Gmail connected</span>`;
+    info.textContent = gmailEmail || 'Connected';
+    btn.textContent = 'Disconnect';
+    btn.className = 'btn-gmail-disconnect';
+    btn.onclick = () => { clearGmailToken(); updateSendBtn(); };
+  } else {
+    banner.className = 'gmail-banner';
+    title.textContent = 'Connect Gmail to auto-send with attachments';
+    info.textContent = 'Sign in once — emails send automatically, attachments included';
+    btn.textContent = 'Connect Gmail';
+    btn.className = 'btn-gmail-connect';
+    btn.onclick = startGmailOAuth;
+  }
+  updateSendBtn();
+}
+
+/* ---- Attachment state ---- */
+let attachedFiles = [];
+let previewIdx = 0;
+
+function renderAttList() {
+  const list = document.getElementById('att-list');
+  if (!list) return;
+  if (attachedFiles.length === 0) { list.innerHTML = ''; return; }
+  list.innerHTML = attachedFiles.map((f,i) => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const icon = ['pdf'].includes(ext) ? '📄' : ['jpg','jpeg','png','gif','webp'].includes(ext) ? '🖼️' : '📎';
+    const kb = f.size < 1024*1024 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1024/1024).toFixed(1)+' MB';
+    return `<div class="att-row">
+      <span class="att-icon">${icon}</span>
+      <span class="att-name" data-idx="${i}" title="Click to preview">${esc(f.name)}</span>
+      <span class="att-size">${kb}</span>
+      <button class="att-rm" data-rm="${i}" title="Remove">×</button>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('[data-rm]').forEach(btn => {
+    btn.addEventListener('click', () => { attachedFiles.splice(parseInt(btn.dataset.rm),1); renderAttList(); updateSendBtn(); });
+  });
+  list.querySelectorAll('.att-name').forEach(el => {
+    el.addEventListener('click', () => openFilePreview(parseInt(el.dataset.idx)));
+  });
+}
+
+function openFilePreview(idx) {
+  previewIdx = idx;
+  showFileModal();
+}
+
+function showFileModal() {
+  const modal = document.getElementById('file-modal');
+  const iframe = document.getElementById('file-modal-iframe');
+  const title = document.getElementById('file-modal-title');
+  if (!modal || !attachedFiles[previewIdx]) return;
+  const f = attachedFiles[previewIdx];
+  title.textContent = `${f.name} (${previewIdx+1}/${attachedFiles.length})`;
+  const url = URL.createObjectURL(f);
+  iframe.src = url;
+  modal.style.display = 'flex';
+}
+
+/* ---- MIME email builder ---- */
+function readFileAsBase64(file) {
+  return new Promise((resolve,reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const b64 = r.result.split(',')[1];
+      resolve(b64);
+    };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+async function buildMimeEmail(to, cc, subject, body, files) {
+  const boundary = 'lendiago_' + Math.random().toString(36).slice(2);
+  const from = gmailEmail || 'sam@lendiago.com';
+  let mime = [
+    `From: ${from}`,
+    `To: ${to}`,
+    cc ? `Cc: ${cc}` : null,
+    `Subject: ${subject}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: multipart/mixed; boundary="${boundary}"`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/plain; charset=UTF-8`,
+    `Content-Transfer-Encoding: quoted-printable`,
+    ``,
+    body,
+  ].filter(x => x !== null).join('\r\n');
+
+  for (const f of files) {
+    const b64 = await readFileAsBase64(f);
+    const chunks = b64.match(/.{1,76}/g).join('\r\n');
+    const mime_type = f.type || 'application/octet-stream';
+    mime += `\r\n--${boundary}\r\nContent-Type: ${mime_type}; name="${f.name}"\r\nContent-Transfer-Encoding: base64\r\nContent-Disposition: attachment; filename="${f.name}"\r\n\r\n${chunks}`;
+  }
+  mime += `\r\n--${boundary}--`;
+  return mime;
+}
+
+function mimeToBase64Url(mime) {
+  const bytes = new TextEncoder().encode(mime);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+async function sendGmailEmail(to, cc, subject, body, files) {
+  const mime = await buildMimeEmail(to, cc, subject, body, files);
+  const raw = mimeToBase64Url(mime);
+  const doSend = async (token) => {
+    const r = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+      body: JSON.stringify({raw})
+    });
+    return r;
+  };
+  let r = await doSend(gmailToken);
+  if (r.status === 401 || r.status === 403) {
+    const ok = await silentRefreshToken();
+    if (ok && gmailToken) {
+      r = await doSend(gmailToken);
+    } else {
+      clearGmailToken();
+      throw new Error('Gmail session expired — please reconnect.');
+    }
+  }
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `HTTP ${r.status}`);
+  }
+  return await r.json();
+}
+
+/* ---- Message builder ---- */
+function buildMsg() {
+  const amount = (document.getElementById('deal-amount')?.value || '').trim();
+  const purpose = (document.getElementById('deal-purpose')?.value || '').trim();
+  const rows = document.querySelectorAll('#positions-list .position-row');
+  const positions = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const lender = inputs[0]?.value.trim();
+    const funded = inputs[1]?.value.trim();
+    const balance = inputs[2]?.value.trim();
+    if (lender) positions.push({lender, funded, balance});
+  });
+
+  let lines = ['Hey team, please underwrite the attached deal.'];
+  if (amount) {
+    const purp = purpose ? `to ${purpose}` : 'for capital expansion';
+    lines.push(`Requesting ${amount} ${purp}.`);
+  }
+  if (positions.length === 1) {
+    const p = positions[0];
+    const funded = p.funded ? ` (funded ${p.funded}, balance ${p.balance || '—'})` : '';
+    lines.push(`They have 1 position open: ${p.lender}${funded}.`);
+  } else if (positions.length > 1) {
+    lines.push(`They have ${positions.length} positions open:`);
+    positions.forEach((p,i) => {
+      const funded = p.funded ? ` — initial loan ${p.funded}, current balance ${p.balance || '—'}` : '';
+      lines.push(`${i+1}. ${p.lender}${funded}.`);
+    });
+  }
+  lines.push('Thank you.');
+  return lines.join('\n');
+}
+
+function updateMsgPreview() {
+  const el = document.getElementById('msg-preview');
+  if (el) el.textContent = buildMsg();
+}
+
+/* ---- Send chips ---- */
+renderSubmitPage._extra = [];
+
+function renderSendChips() {
+  const chips = document.getElementById('send-chips');
+  if (!chips) return;
+  const selected = [...selectedLenders];
+  const extra = renderSubmitPage._extra || [];
+  const allNames = [...new Set([...selected, ...extra.map(e=>e.name)])];
+  chips.innerHTML = allNames.map(name => {
+    const L = lenders.find(l=>l.name===name);
+    const isExtra = extra.some(e=>e.name===name);
+    const hasEmail = isExtra ? true : !!(L?.submission_emails?.length || L?.contact_email);
+    return `<span class="send-chip${hasEmail?' active':''}" data-name="${esc(name)}" data-extra="${isExtra}">
+      ${esc(name)}
+      <button class="send-chip-x" data-rm="${esc(name)}" title="Remove">×</button>
+    </span>`;
+  }).join('');
+  chips.querySelectorAll('.send-chip-x').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const name = btn.dataset.rm;
+      selectedLenders.delete(name);
+      renderSubmitPage._extra = (renderSubmitPage._extra||[]).filter(e=>e.name!==name);
+      renderSendChips();
+      updateSendBtn();
+    });
+  });
+  updateSendBtn();
+}
+
+function updateSendBtn() {
+  const btn = document.getElementById('btn-send-all');
+  const label = document.getElementById('btn-send-label');
+  if (!btn) return;
+  const chips = document.querySelectorAll('.send-chip.active');
+  const n = chips.length;
+  if (label) label.textContent = `Send to ${n} Lender${n===1?'':'s'}`;
+  btn.disabled = !gmailToken || n === 0;
+}
+
+/* ---- Add-lender dropdown ---- */
+function renderLmDropdown(q) {
+  const dd = document.getElementById('lastmin-dropdown');
+  if (!dd) return;
+  const extra = renderSubmitPage._extra || [];
+  const taken = new Set([...selectedLenders, ...extra.map(e=>e.name)]);
+  const active = lenders.filter(L => L.status === 'active' && !taken.has(L.name));
+  const filtered = q
+    ? active.filter(L => L.name.toLowerCase().includes(q.toLowerCase()))
+    : active;
+  if (filtered.length === 0) { dd.innerHTML = ''; dd.classList.remove('open'); return; }
+  dd.innerHTML = filtered.slice(0,20).map(L => {
+    const email = L.submission_emails?.[0]?.email || L.contact_email || '—';
+    return `<div class="lm-row" data-lmname="${esc(L.name)}">
+      <span class="lm-name">${esc(L.name)}</span>
+      <span class="lm-email">${esc(email)}</span>
+      <span class="lm-add">+ Add</span>
+    </div>`;
+  }).join('');
+  dd.querySelectorAll('.lm-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const name = row.dataset.lmname;
+      selectedLenders.add(name);
+      document.getElementById('lastmin-search').value = '';
+      dd.classList.remove('open');
+      renderSendChips();
+    });
+  });
+  dd.classList.add('open');
+}
+
+/* ---- Send all ---- */
+async function doSendAll() {
+  const btn = document.getElementById('btn-send-all');
+  const progWrap = document.getElementById('send-progress');
+  const bizName = (document.getElementById('deal-biz-name')?.value || '').trim();
+  const subject = bizName ? `NEW DEAL: ${bizName}` : 'NEW DEAL';
+  const body = buildMsg();
+
+  // Gather all chip names
+  const chipEls = document.querySelectorAll('.send-chip.active');
+  const names = [...chipEls].map(c => c.dataset.name);
+  if (!names.length) return;
+
+  btn.disabled = true;
+  progWrap.style.display = 'flex';
+  progWrap.innerHTML = names.map(n => `
+    <div class="prog-row" id="pr-${CSS.escape(n)}">
+      <span class="pr-icon">⏳</span>
+      <span class="pr-name">${esc(n)}</span>
+      <span class="pr-status">Sending…</span>
+    </div>`).join('');
+
+  let sentCount = 0;
+  for (const name of names) {
+    const L = lenders.find(l => l.name === name);
+    const extra = (renderSubmitPage._extra||[]).find(e=>e.name===name);
+    let to = '', cc = '';
+    if (extra) {
+      to = extra.to || '';
+      cc = extra.cc || '';
+    } else if (L) {
+      const emails = L.submission_emails || [];
+      const toEmails = emails.filter(e=>e.tag==='to').map(e=>e.email);
+      const ccEmails = emails.filter(e=>e.tag==='cc').map(e=>e.email);
+      to = toEmails.join(', ') || L.contact_email || '';
+      cc = ccEmails.join(', ');
+    }
+    const rowId = `pr-${CSS.escape(name)}`;
+    const row = document.getElementById(rowId);
+    try {
+      if (!to) throw new Error('No email address');
+      await sendGmailEmail(to, cc, subject, body, attachedFiles);
+      sentCount++;
+      if (row) { row.className = 'prog-row pr-sent'; row.querySelector('.pr-icon').textContent = '✅'; row.querySelector('.pr-status').textContent = 'Sent'; }
+    } catch(err) {
+      if (row) { row.className = 'prog-row pr-error'; row.querySelector('.pr-icon').textContent = '❌'; row.querySelector('.pr-status').textContent = err.message || 'Error'; }
     }
   }
 
-  // Lender name chips
-  const chipsEl = document.getElementById('submit-lenders-list');
-  if (chipsEl) {
-    chipsEl.innerHTML = selected.map(L => {
-      const noEmail = L.contact_email ? '' : ' no-email';
-      const indicator = L.contact_email ? '' : ' ⚠';
-      return `<span class="submit-lender-chip${noEmail}">${esc(L.name)}${indicator}</span>`;
-    }).join('');
+  // Show success if all sent
+  const successEl = document.getElementById('send-success');
+  if (sentCount === names.length && successEl) {
+    successEl.style.display = 'block';
+    document.getElementById('send-success-title').textContent = `All ${sentCount} email${sentCount===1?'':'s'} sent!`;
+    document.getElementById('send-success-sub').textContent = `${sentCount} lender${sentCount===1?'':'s'} received the deal for ${bizName || 'this merchant'}.`;
+    btn.style.display = 'none';
+  } else {
+    btn.disabled = false;
+    if (label) label.textContent = `Send Again`;
+  }
+}
+
+/* ---- Main render function ---- */
+function renderSubmitPage() {
+  // Reset UI state each time we navigate here
+  const progWrap = document.getElementById('send-progress');
+  const successEl = document.getElementById('send-success');
+  const sendBtn = document.getElementById('btn-send-all');
+  if (progWrap) progWrap.style.display = 'none';
+  if (successEl) successEl.style.display = 'none';
+  if (sendBtn) sendBtn.style.display = '';
+
+  const n = selectedLenders.size;
+  const sub = document.getElementById('submit-count-sub');
+  if (sub) sub.textContent = `${n} lender${n===1?'':'s'} selected`;
+
+  // Wire step 1
+  const bizInput = document.getElementById('deal-biz-name');
+  const subjectPrev = document.getElementById('deal-subject-preview');
+  if (bizInput && !bizInput._wired) {
+    bizInput._wired = true;
+    bizInput.addEventListener('input', () => {
+      const v = bizInput.value.trim();
+      if (subjectPrev) subjectPrev.textContent = v ? `NEW DEAL: ${v}` : 'Subject — auto-fills from name above';
+    });
   }
 
-  // Pre-fill message if empty
-  const msgEl = document.getElementById('submit-message');
-  if (msgEl && !msgEl.value.trim()) {
-    msgEl.value = settings.default_message || DEFAULT_MESSAGE;
+  // Wire step 2
+  const amtInput = document.getElementById('deal-amount');
+  const purpInput = document.getElementById('deal-purpose');
+  if (amtInput && !amtInput._wired) { amtInput._wired = true; amtInput.addEventListener('input', updateMsgPreview); }
+  if (purpInput && !purpInput._wired) { purpInput._wired = true; purpInput.addEventListener('input', updateMsgPreview); }
+
+  const addPosBtn = document.getElementById('btn-add-pos');
+  if (addPosBtn && !addPosBtn._wired) {
+    addPosBtn._wired = true;
+    addPosBtn.addEventListener('click', () => {
+      const row = document.createElement('div');
+      row.className = 'position-row';
+      row.innerHTML = `<input class="deal-input" placeholder="Lender name" type="text">
+        <input class="deal-input" placeholder="Initial loan" type="text">
+        <input class="deal-input" placeholder="Balance" type="text">
+        <button class="btn-rm-pos" title="Remove">×</button>`;
+      row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updateMsgPreview));
+      row.querySelector('.btn-rm-pos').addEventListener('click', () => { row.remove(); updateMsgPreview(); });
+      document.getElementById('positions-list').appendChild(row);
+      row.querySelector('input').focus();
+    });
   }
+
+  // Wire step 3 attachments
+  const dz = document.getElementById('drop-zone');
+  const fi = document.getElementById('file-input');
+  if (dz && !dz._wired) {
+    dz._wired = true;
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+  }
+  if (fi && !fi._wired) {
+    fi._wired = true;
+    fi.addEventListener('change', () => { handleFiles(fi.files); fi.value = ''; });
+  }
+
+  function handleFiles(fileList) {
+    [...fileList].forEach(f => { if (!attachedFiles.find(x=>x.name===f.name && x.size===f.size)) attachedFiles.push(f); });
+    renderAttList();
+    updateSendBtn();
+  }
+
+  // Wire file preview modal
+  const modal = document.getElementById('file-modal');
+  const closeBtn = document.getElementById('file-modal-close');
+  const prevBtn = document.getElementById('file-modal-prev');
+  const nextBtn = document.getElementById('file-modal-next');
+  if (closeBtn && !closeBtn._wired) {
+    closeBtn._wired = true;
+    closeBtn.addEventListener('click', () => { modal.style.display='none'; });
+    prevBtn.addEventListener('click', () => { previewIdx = Math.max(0,previewIdx-1); showFileModal(); });
+    nextBtn.addEventListener('click', () => { previewIdx = Math.min(attachedFiles.length-1,previewIdx+1); showFileModal(); });
+    document.addEventListener('keydown', e => {
+      if (modal.style.display==='none') return;
+      if (e.key==='ArrowLeft') prevBtn.click();
+      if (e.key==='ArrowRight') nextBtn.click();
+      if (e.key==='Escape') closeBtn.click();
+    });
+    modal.addEventListener('click', e => { if (e.target===modal) closeBtn.click(); });
+  }
+
+  // Wire step 4 Gmail + send
+  updateGmailAuthUI();
+  renderSendChips();
+
+  const searchEl = document.getElementById('lastmin-search');
+  if (searchEl && !searchEl._wired) {
+    searchEl._wired = true;
+    searchEl.addEventListener('input', () => renderLmDropdown(searchEl.value.trim()));
+    searchEl.addEventListener('focus', () => renderLmDropdown(searchEl.value.trim()));
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.lastmin-wrap')) {
+        const dd = document.getElementById('lastmin-dropdown');
+        if (dd) dd.classList.remove('open');
+      }
+    });
+  }
+
+  const sendBtn2 = document.getElementById('btn-send-all');
+  if (sendBtn2 && !sendBtn2._wired) {
+    sendBtn2._wired = true;
+    sendBtn2.addEventListener('click', doSendAll);
+  }
+
+  const newSubBtn = document.getElementById('btn-new-submission');
+  if (newSubBtn && !newSubBtn._wired) {
+    newSubBtn._wired = true;
+    newSubBtn.addEventListener('click', () => {
+      selectedLenders.clear();
+      attachedFiles = [];
+      renderSubmitPage._extra = [];
+      const bizInput = document.getElementById('deal-biz-name');
+      const amtInput = document.getElementById('deal-amount');
+      const purpInput = document.getElementById('deal-purpose');
+      const posList = document.getElementById('positions-list');
+      if (bizInput) bizInput.value = '';
+      if (amtInput) amtInput.value = '';
+      if (purpInput) purpInput.value = '';
+      if (posList) posList.innerHTML = '';
+      if (document.getElementById('deal-subject-preview')) document.getElementById('deal-subject-preview').textContent = 'Subject — auto-fills from name above';
+      updateMsgPreview();
+      navigate('match');
+      updateActionBar();
+    });
+  }
+
+  // Wire bottom bar buttons
+  const backBtn = document.getElementById('btn-submit-back');
+  const backBtn2 = document.getElementById('btn-clear-and-back');
+  const cancelBtn = document.getElementById('btn-done-submit');
+  if (backBtn && !backBtn._wired) { backBtn._wired = true; backBtn.addEventListener('click', () => navigate('match')); }
+  if (backBtn2 && !backBtn2._wired) { backBtn2._wired = true; backBtn2.addEventListener('click', () => navigate('match')); }
+  if (cancelBtn && !cancelBtn._wired) { cancelBtn._wired = true; cancelBtn.addEventListener('click', () => navigate('match')); }
+
+  updateMsgPreview();
 }
 
 /* ============================================================
