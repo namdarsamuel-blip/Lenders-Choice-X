@@ -9313,7 +9313,15 @@ async function silentRefreshToken() {
 function startGmailOAuth() {
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GMAIL_CLIENT_ID}&redirect_uri=${encodeURIComponent(GMAIL_REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPE)}&prompt=select_account`;
   const w = window.open(url, 'gmailauth', 'width=520,height=640,left=200,top=100');
-  if (!w) { alert('Please allow popups for this page to connect Gmail.'); return; }
+
+  // If browser blocked popup or opened as tab, poll via localStorage instead
+  if (!w || w === window) {
+    // Set a flag so when the redirect lands on this page it saves the token
+    sessionStorage.setItem('lendiago_oauth_pending', '1');
+    if (!w) window.open(url, '_blank');
+    return;
+  }
+
   const poll = setInterval(() => {
     try {
       if (w.closed) { clearInterval(poll); return; }
@@ -9348,7 +9356,12 @@ function handleOAuthCallback() {
   const token = p.get('access_token');
   const expiresIn = parseInt(p.get('expires_in') || '3600');
   history.replaceState(null, '', location.pathname);
-  if (token) fetchGmailUserEmail(token, expiresIn);
+  if (token) {
+    fetchGmailUserEmail(token, expiresIn);
+    // If this was a tab-based flow, close this tab and return to the app
+    // (only if the app was already open in another tab)
+    sessionStorage.removeItem('lendiago_oauth_pending');
+  }
 }
 
 function updateGmailAuthUI() {
